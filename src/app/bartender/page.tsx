@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { redirect } from 'next/navigation';
 
+export const dynamic = 'force-dynamic';
+
 export default async function BartenderDashboard() {
     const activeShift = await getActiveShift();
 
