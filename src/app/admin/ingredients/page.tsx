@@ -4,6 +4,8 @@ import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 export default async function ManageIngredients() {
     const ingredients = await getIngredients();
 
