@@ -125,6 +125,7 @@ export async function getReportData() {
     const shifts = await prisma.shift.findMany({
         where: { NOT: { endTime: null } },
         include: {
+            bar: true,
             checks: { include: { ingredient: true } },
             sales: { include: { drink: { include: { recipeItems: true } } } }
         },
