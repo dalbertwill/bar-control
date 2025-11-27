@@ -1,0 +1,29 @@
+{
+    "name": "bar-control",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint",
+        "postinstall": "prisma generate"
+    },
+    "dependencies": {
+        "@google/generative-ai": "^0.1.0",
+        "@prisma/client": "^5.0.0",
+        "next": "latest",
+        "next-pwa": "^5.6.0",
+        "react": "latest",
+        "react-dom": "latest"
+    },
+    "devDependencies": {
+        "@types/node": "latest",
+        "@types/react": "latest",
+        "@types/react-dom": "latest",
+        "eslint": "latest",
+        "eslint-config-next": "latest",
+        "prisma": "^5.0.0",
+        "typescript": "latest"
+    }
+}

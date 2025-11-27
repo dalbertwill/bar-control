@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Bar {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  shifts    Shift[]
+}
+
+model Ingredient {
+  id        Int      @id @default(autoincrement())
+  name      String
+  unit      String   // e.g., "ml", "g", "unit"
+  volume    Float    // Volume per bottle/package in 'unit'
+  cost      Float    // Cost per bottle/package
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  recipeItems RecipeItem[]
+  bottleChecks BottleCheck[]
+}
+
+model Drink {
+  id        Int      @id @default(autoincrement())
+  name      String
+  price     Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  recipeItems RecipeItem[]
+  sales       Sale[]
+}
+
+model RecipeItem {
+  id           Int        @id @default(autoincrement())
+  drinkId      Int
+  ingredientId Int
+  quantity     Float      // Quantity of ingredient used in this drink
+  
+  drink        Drink      @relation(fields: [drinkId], references: [id])
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+}
+
+model Shift {
+  id        Int      @id @default(autoincrement())
+  barId     Int
+  startTime DateTime @default(now())
+  endTime   DateTime?
+  
+  bar       Bar      @relation(fields: [barId], references: [id])
+  checks    BottleCheck[]
+  sales     Sale[]
+}
+
+model BottleCheck {
+  id           Int        @id @default(autoincrement())
+  shiftId      Int
+  ingredientId Int
+  bottleId     String     // Physical ID written on the bottle
+  type         String     // "START" or "END"
+  level        Float      // 0.0 to 1.0 (0% to 100%)
+  photoUrl     String?
+  createdAt    DateTime   @default(now())
+
+  shift        Shift      @relation(fields: [shiftId], references: [id])
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+}
+
+model Sale {
+  id        Int      @id @default(autoincrement())
+  shiftId   Int
+  drinkId   Int
+  quantity  Int
+  createdAt DateTime @default(now())
+
+  shift     Shift    @relation(fields: [shiftId], references: [id])
+  drink     Drink    @relation(fields: [drinkId], references: [id])
+}
