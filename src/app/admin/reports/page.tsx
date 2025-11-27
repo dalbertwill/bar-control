@@ -2,6 +2,8 @@ import { prisma } from '@/lib/prisma';
 import { Card } from '@/components/ui/Card';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 // Helper to calculate consumption
 async function getShiftReports() {
     const shifts = await prisma.shift.findMany({
